@@ -52,7 +52,7 @@ static const Layout layouts[] = {
 	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
-#define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
+#define SHCMD(cmd) { .v = (const char*[]){ "/bin/zsh", "-c", cmd, NULL } }
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
@@ -63,6 +63,7 @@ static const char *decbrightness[] = { "brightnessctl", "s", "10%-", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
+	{ MODKEY,			XK_w,	   spawn,	   SHCMD("firefox-developer-edition") },
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
@@ -96,6 +97,10 @@ static Key keys[] = {
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+	{ 0, 				XF86XK_AudioMute,	spawn,	SHCMD("pamixer -t; kill -44 $(pidof dwmblocks") },
+	{ 0,				XF86XK_AudioLowerVolume, 	spawn, SHCMD("pamixer -d 3; kill -44 $(pidof dwmblocks)") },
+	{ 0,				XF86XK_AudioRaiseVolume, 	spawn, SHCMD("pamixer -i 3; kill -44 $(pidof dwmblocks)") },
+	{ 0, 				XF86XK_AudioMicMute, 	spawn,	SHCMD("pactl set-source-mute 0 toggle") },
 	{ 0,				XF86XK_MonBrightnessUp, spawn,	{.v = incbrightness  } },
 	{ 0,				XF86XK_MonBrightnessDown, spawn,	{.v = decbrightness  } },
 };
